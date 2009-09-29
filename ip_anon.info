@@ -1,0 +1,7 @@
+; $Id$
+name = IP anonymize
+description = Implements an IP address retention policy.
+core = 7.x
+files[] = ip_anon.inc
+files[] = ip_anon.install
+files[] = ip_anon.module
