@@ -10,8 +10,10 @@
  * Implement hook_cron().
  */
 function ip_anon_cron() {
-  module_load_include('inc', 'ip_anon');
-  ip_anon_scrub();
+  if (variable_get('ip_anon_policy', 0)) {
+    module_load_include('inc', 'ip_anon');
+    ip_anon_scrub();
+  }
 }
 
 /**

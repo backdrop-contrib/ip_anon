@@ -10,13 +10,11 @@
  * Anonymize IP addresses which have exceeded the retention period. 
  */
 function ip_anon_scrub() {
-  if (variable_get('ip_anon_policy', 0)) {
-    foreach (ip_anon_tables() as $table => $columns) {
-      db_update($table)
-        ->fields(array($columns['hostname'] => 0))
-        ->condition($columns['timestamp'], REQUEST_TIME - variable_get('ip_anon_period_'. $table, 21600), '<')
-        ->execute();
-    }
+  foreach (ip_anon_tables() as $table => $columns) {
+    db_update($table)
+      ->fields(array($columns['hostname'] => 0))
+      ->condition($columns['timestamp'], REQUEST_TIME - variable_get('ip_anon_period_'. $table, 21600), '<')
+      ->execute();
   }
 }
 
