@@ -28,7 +28,7 @@ function ip_anon_settings() {
     '#title' => t('Retention policy'),
     '#options' => array(0 => t('Preserve IP addresses'), 1 => t('Anonymize IP addresses')),
     '#description' => t('This setting may be used to temporarily disable IP anonymization.'),
-    '#default_value' => 0,
+    '#default_value' => variable_get('ip_anon_policy', 0),
   );
   $form['ip_anon_period'] = array(
     '#type' => 'fieldset',
@@ -42,7 +42,7 @@ function ip_anon_settings() {
       '#type' => 'select',
       '#title' => t('@table table', array('@table' => $table)),
       '#options' => $options,
-      '#default_value' => 21600,
+      '#default_value' => variable_get('ip_anon_period_' . $table, 21600),
       '#description' => t($schema['description']),
     );
   }
@@ -62,6 +62,8 @@ function ip_anon_settings() {
 function ip_anon_tables() {
   $columns = drupal_map_assoc(array('hostname', 'timestamp'));
   $tables = array_fill_keys(array('accesslog', 'comment', 'sessions', 'watchdog'), $columns);
+  // What used to be the comment.timestamp column has been renamed to changed.
+  $tables['comment']['timestamp'] = 'changed';
   drupal_alter('ip_anon', $tables);
   foreach ($tables as $table => $columns) {
     if (!db_table_exists($table)) {
