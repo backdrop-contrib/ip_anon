@@ -49,26 +49,55 @@ function ip_anon_settings() {
   return system_settings_form($form);
 }
 
+
+/**
+ * Default array of hostname and timestamp columns.
+ */
+function ip_anon_columns() {
+  return drupal_map_assoc(array('hostname', 'timestamp'));
+}
+
 /**
  * Array of tables and columns which store hostnames and timestamps.
- * Other modules may use hook_ip_anon_alter() to add tables:
- * function my_module_ip_anon_alter(&$tables) {
- *   $tables['my_table_name'] = array(
- *     'hostname' => 'my_hostname_column',
- *     'timestamp' => 'my_timestamp_column',
- *   );
- * }
+ *
+ * Modules may add tables by implementing hook_ip_anon_alter().
  */
 function ip_anon_tables() {
-  $columns = drupal_map_assoc(array('hostname', 'timestamp'));
-  $tables = array_fill_keys(array('accesslog', 'comment', 'sessions', 'watchdog'), $columns);
-  // What used to be the comment.timestamp column has been renamed to changed.
-  $tables['comment']['timestamp'] = 'changed';
+  $tables = array('sessions' => ip_anon_columns());
   drupal_alter('ip_anon', $tables);
-  foreach ($tables as $table => $columns) {
-    if (!db_table_exists($table)) {
-      unset($tables[$table]);
-    }
-  }
   return $tables;
+}
+
+/**
+ * Implements hook_ip_anon_alter() for comment module.
+ */
+function comment_ip_anon_alter(&$tables) {
+  $tables['comment'] = array(
+    'hostname' => 'hostname',
+    'timestamp' => 'changed',
+  );
+}
+
+/**
+ * Implements hook_ip_anon_alter() for dblog module.
+ */
+function dblog_ip_anon_alter(&$tables) {
+  $tables['watchdog'] = ip_anon_columns();
+}
+
+/**
+ * Implements hook_ip_anon_alter() for statistics module.
+ */
+function statistics_ip_anon_alter(&$tables) {
+  $tables['accesslog'] = ip_anon_columns();
+}
+
+/**
+ * Implements hook_ip_anon_alter() for webform module.
+ */
+function webform_ip_anon_alter(&$tables) {
+  $tables['webform_submissions'] = array(
+    'hostname' => 'remote_addr',
+    'timestamp' => 'submitted',
+  );
 }
