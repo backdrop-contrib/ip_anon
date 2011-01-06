@@ -38,6 +38,7 @@ function ip_anon_settings() {
   $options = drupal_map_assoc(array(0, 30, 60, 120, 180, 300, 600, 900, 1800, 2700, 3600, 5400, 7200, 10800, 21600, 32400, 43200, 64800, 86400, 172800, 259200, 345600, 604800, 1209600, 2419200, 4838400, 9676800, 31536000), 'format_interval');
   foreach (ip_anon_tables() as $table => $columns) {
     $schema = drupal_get_schema($table);
+    $schema = drupal_get_schema_unprocessed($schema['module'], $table);
     $form['ip_anon_period']['ip_anon_period_' . $table] = array(
       '#type' => 'select',
       '#title' => t('@table table', array('@table' => $table)),
