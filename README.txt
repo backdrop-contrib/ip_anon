@@ -1,4 +1,3 @@
-// $Id$
 
 ABOUT THIS MODULE
 -----------------

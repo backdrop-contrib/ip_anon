@@ -1,4 +1,3 @@
-; $Id$
 name = IP anonymize
 description = Implements an IP address retention policy.
 core = 7.x
