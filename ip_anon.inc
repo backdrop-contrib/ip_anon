@@ -93,6 +93,16 @@ function statistics_ip_anon_alter(&$tables) {
 }
 
 /**
+ * Implements hook_ip_anon_alter() for Voting API module.
+ */
+function votingapi_ip_anon_alter(&$tables) {
+  $tables['votingapi_vote'] = array(
+    'hostname' => 'vote_source',
+    'timestamp' => 'timestamp',
+  );
+}
+
+/**
  * Implements hook_ip_anon_alter() for webform module.
  */
 function webform_ip_anon_alter(&$tables) {
