@@ -43,7 +43,7 @@ function ip_anon_settings() {
       '#title' => t('@table table', array('@table' => $table)),
       '#options' => $options,
       '#default_value' => variable_get('ip_anon_period_' . $table, 21600),
-      '#description' => t($schema['description']),
+      '#description' => isset($schema['description']) ? t($schema['description']) : '',
     );
   }
   return system_settings_form($form);
