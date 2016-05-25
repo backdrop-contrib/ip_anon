@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Tests for IP Anonymize module.
+ */
+
+/**
+ * Tests basic IP Anonymize functionality.
+ */
+class IpAnonymizeTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'IP Anonymize tests',
+      'description' => 'Tests IP Anonymize module.',
+      'group' => 'IP Anonymize',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('ip_anon');
+  }
+
+  /**
+   * Basic tests for IP Anonymize module.
+   */
+  protected function testIpAnonymize() {
+    $admin_user = $this->drupalCreateUser(array('administer site configuration'));
+    $this->drupalLogin($admin_user);
+
+    $this->assertTrue($this->getIp());
+
+    $config['ip_anon_policy'] = 1;
+    $config['ip_anon_period_watchdog'] = 0;
+    $this->drupalPost('admin/config/people/ip_anon', $config, t('Save configuration'));
+
+    $this->cronRun();
+
+    $this->assertFalse($this->getIp());
+  }
+
+  /**
+   * Get IP address from watchdog table.
+   */
+  protected function getIp() {
+    return db_select('watchdog', 'w')
+      ->fields('w', array('hostname'))
+      ->range(0, 1)
+      ->execute()
+      ->fetchField();
+  }
+
+}
