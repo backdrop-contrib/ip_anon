@@ -6,7 +6,7 @@
  */
 
 /**
- * Implement hook_cron().
+ * Implements hook_cron().
  */
 function ip_anon_cron() {
   if (variable_get('ip_anon_policy', 0)) {
@@ -16,7 +16,7 @@ function ip_anon_cron() {
 }
 
 /**
- * Implement hook_menu().
+ * Implements hook_menu().
  */
 function ip_anon_menu() {
   $items = array();

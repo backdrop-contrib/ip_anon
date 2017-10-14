@@ -9,6 +9,10 @@
  * Tests basic IP Anonymize functionality.
  */
 class IpAnonymizeTestCase extends DrupalWebTestCase {
+
+  /**
+   * {@inheritdoc}
+   */
   public static function getInfo() {
     return array(
       'name' => 'IP Anonymize tests',
@@ -17,7 +21,10 @@ class IpAnonymizeTestCase extends DrupalWebTestCase {
     );
   }
 
-  function setUp() {
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
     parent::setUp('ip_anon');
   }
 

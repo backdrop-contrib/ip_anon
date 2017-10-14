@@ -1,7 +1,12 @@
 <?php
 
 /**
- * Implement hook_uninstall().
+ * @file
+ * Uninstall function for IP anonymize module.
+ */
+
+/**
+ * Implements hook_uninstall().
  */
 function ip_anon_uninstall() {
   db_delete('variable')

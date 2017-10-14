@@ -6,13 +6,13 @@
  */
 
 /**
- * Anonymize IP addresses which have exceeded the retention period. 
+ * Anonymize IP addresses which have exceeded the retention period.
  */
 function ip_anon_scrub() {
   foreach (ip_anon_tables() as $table => $columns) {
     db_update($table)
       ->fields(array($columns['hostname'] => 0))
-      ->condition($columns['timestamp'], REQUEST_TIME - variable_get('ip_anon_period_'. $table, 21600), '<')
+      ->condition($columns['timestamp'], REQUEST_TIME - variable_get("ip_anon_period_$table", 21600), '<')
       ->execute();
   }
 }
@@ -34,7 +34,36 @@ function ip_anon_settings() {
     '#title' => t('Retention period'),
     '#description' => t('IP addresses older than the retention period will be anonymized.'),
   );
-  $options = drupal_map_assoc(array(0, 30, 60, 120, 180, 300, 600, 900, 1800, 2700, 3600, 5400, 7200, 10800, 21600, 32400, 43200, 64800, 86400, 172800, 259200, 345600, 604800, 1209600, 2419200, 4838400, 9676800, 31536000), 'format_interval');
+  $options = drupal_map_assoc(array(
+    0,
+    30,
+    60,
+    120,
+    180,
+    300,
+    600,
+    900,
+    1800,
+    2700,
+    3600,
+    5400,
+    7200,
+    10800,
+    21600,
+    32400,
+    43200,
+    64800,
+    86400,
+    172800,
+    259200,
+    345600,
+    604800,
+    1209600,
+    2419200,
+    4838400,
+    9676800,
+    31536000,
+  ), 'format_interval');
   foreach (ip_anon_tables() as $table => $columns) {
     $schema = drupal_get_schema($table);
     $schema = drupal_get_schema_unprocessed($schema['module'], $table);
@@ -43,12 +72,11 @@ function ip_anon_settings() {
       '#title' => t('@table table', array('@table' => $table)),
       '#options' => $options,
       '#default_value' => variable_get('ip_anon_period_' . $table, 21600),
-      '#description' => isset($schema['description']) ? t($schema['description']) : '',
+      '#description' => isset($schema['description']) ? $schema['description'] : '',
     );
   }
   return system_settings_form($form);
 }
-
 
 /**
  * Default array of hostname and timestamp columns.
