@@ -129,6 +129,16 @@ function statistics_ip_anon_alter(&$tables) {
 }
 
 /**
+ * Implements hook_ip_anon_alter() for Ubercart order module.
+ */
+function uc_order_ip_anon_alter(&$tables) {
+  $tables['uc_orders'] = array(
+    'hostname' => 'host',
+    'timestamp' => 'modified',
+  );
+}
+
+/**
  * Implements hook_ip_anon_alter() for Voting API module.
  */
 function votingapi_ip_anon_alter(&$tables) {
