@@ -16,11 +16,9 @@ IP anonymize cannot guarantee anonymity, as IP addresses are recorded at
 least temporarily, and may also be logged elsewhere in the system such 
 as webserver error logs.  For more robust anonymization, remote IP 
 addresses can be suppressed by putting your webserver behind a proxy.  
-See also http://docs.indymedia.org/view/Sysadmin/ApacheLogsWithoutIPs
 
 HOW TO INSTALL
 --------------
 
 Place the ip_anon directory in your modules directory, enable the module 
-at admin/config/modules and go to admin/config/people/ip_anon to 
-configure it.
+at admin/modules and go to admin/config/people/ip_anon to configure it.
