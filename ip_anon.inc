@@ -139,6 +139,16 @@ function uc_order_ip_anon_alter(&$tables) {
 }
 
 /**
+ * Implements hook_ip_anon_alter() for user_stats module.
+ */
+function user_stats_ip_anon_alter(&$tables) {
+  $tables['user_stats_ips'] = array(
+    'hostname' => 'ip_address',
+    'timestamp' => 'first_seen_timestamp',
+  );
+}
+
+/**
  * Implements hook_ip_anon_alter() for Voting API module.
  */
 function votingapi_ip_anon_alter(&$tables) {
