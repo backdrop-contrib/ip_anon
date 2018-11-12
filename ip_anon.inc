@@ -122,6 +122,23 @@ function dblog_ip_anon_alter(&$tables) {
 }
 
 /**
+ * Implements hook_ip_anon_alter() for Login Activity module.
+ */
+function login_activity_ip_anon_alter(&$tables) {
+  $tables['login_activity'] = ip_anon_columns();
+}
+
+/**
+ * Implements hook_ip_anon_alter() for Login History module.
+ */
+function login_history_ip_anon_alter(&$tables) {
+  $tables['login_history'] = array(
+    'hostname' => 'hostname',
+    'timestamp' => 'login',
+  );
+}
+
+/**
  * Implements hook_ip_anon_alter() for statistics module.
  */
 function statistics_ip_anon_alter(&$tables) {
