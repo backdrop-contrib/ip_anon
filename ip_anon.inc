@@ -80,7 +80,7 @@ function ip_anon_settings() {
       '#title' => t('@table table', array('@table' => $table)),
       '#options' => $options,
       '#default_value' => variable_get('ip_anon_period_' . $table, 21600),
-      '#description' => isset($schema['description']) ? $schema['description'] : '',
+      '#description' => isset($schema['description']) ? check_plain($schema['description']) : '',
     );
   }
   return system_settings_form($form);
