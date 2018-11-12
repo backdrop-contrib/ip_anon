@@ -21,7 +21,7 @@ function ip_anon_cron() {
 function ip_anon_menu() {
   $items = array();
   $items['admin/config/people/ip_anon'] = array(
-    'title' => 'IP anonymize',
+    'title' => 'IP address anonymization',
     'description' => 'Configure the IP address retention policy.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ip_anon_settings'),

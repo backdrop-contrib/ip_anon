@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Page callbacks and utility functions for IP anonymize module.
+ * Page callbacks and utility functions for IP Anonymize module.
  */
 
 /**
@@ -18,7 +18,7 @@ function ip_anon_scrub() {
 }
 
 /**
- * Configuration options for IP anonymize.
+ * Configuration options for IP Anonymize.
  */
 function ip_anon_settings() {
   $form = array();
