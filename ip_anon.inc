@@ -115,6 +115,16 @@ function comment_ip_anon_alter(&$tables) {
 }
 
 /**
+ * Implements hook_ip_anon_alter() for Commerce order module.
+ */
+function commerce_order_ip_anon_alter(&$tables) {
+  $tables['commerce_order'] = array(
+    'hostname' => 'hostname',
+    'timestamp' => 'changed',
+  );
+}
+
+/**
  * Implements hook_ip_anon_alter() for dblog module.
  */
 function dblog_ip_anon_alter(&$tables) {
