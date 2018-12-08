@@ -166,6 +166,16 @@ function uc_order_ip_anon_alter(&$tables) {
 }
 
 /**
+ * Implements hook_ip_anon_alter() for User IP Log module.
+ */
+function uiplog_ip_anon_alter(&$tables) {
+  $tables['uiplog'] = array(
+    'hostname' => 'ip',
+    'timestamp' => 'timestamp',
+  );
+}
+
+/**
  * Implements hook_ip_anon_alter() for user_stats module.
  */
 function user_stats_ip_anon_alter(&$tables) {
