@@ -1,5 +1,5 @@
 name = IP Anonymize
 description = Implements an IP address retention policy.
-core = 7.x
-files[] = ip_anon.test
+backdrop = 1.x
+type = module
 configure = admin/config/people/ip_anon

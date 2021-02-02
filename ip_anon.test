@@ -8,7 +8,7 @@
 /**
  * Tests basic IP Anonymize functionality.
  */
-class IpAnonymizeTestCase extends DrupalWebTestCase {
+class IpAnonymizeTestCase extends BackdropWebTestCase {
 
   /**
    * {@inheritdoc}
@@ -32,14 +32,14 @@ class IpAnonymizeTestCase extends DrupalWebTestCase {
    * Basic tests for IP Anonymize module.
    */
   protected function testIpAnonymize() {
-    $admin_user = $this->drupalCreateUser(array('administer site configuration'));
-    $this->drupalLogin($admin_user);
+    $admin_user = $this->backdropCreateUser(array('administer site configuration'));
+    $this->backdropLogin($admin_user);
 
     $this->assertTrue($this->getIp());
 
     $config['ip_anon_policy'] = 1;
     $config['ip_anon_period_watchdog'] = 0;
-    $this->drupalPost('admin/config/people/ip_anon', $config, t('Save configuration'));
+    $this->backdropPost('admin/config/people/ip_anon', $config, t('Save configuration'));
 
     $this->cronRun();
 

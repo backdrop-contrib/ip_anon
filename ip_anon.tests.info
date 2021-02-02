@@ -1,0 +1,6 @@
+[IpAnonymizeTestCase]
+name = IP Anonymize tests
+description = Tests IP Anonymize module.
+group = IP Anonymize
+file = ip_anon.test
+

@@ -6,10 +6,20 @@
  */
 
 /**
+ * Implements hook_config_info().
+ */
+function ip_anon_config_info() {
+  $prefixes['ip_anon.settings'] = array(
+    'label' => t('Module name settings'),
+    'group' => t('Configuration'),
+  );
+}
+
+/**
  * Implements hook_cron().
  */
 function ip_anon_cron() {
-  if (variable_get('ip_anon_policy', 0)) {
+  if (config_get('ip_anon.settings', 'ip_anon_policy')) {
     module_load_include('inc', 'ip_anon');
     ip_anon_scrub();
   }
@@ -23,10 +33,18 @@ function ip_anon_menu() {
   $items['admin/config/people/ip_anon'] = array(
     'title' => 'IP address anonymization',
     'description' => 'Configure the IP address retention policy.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('ip_anon_settings'),
     'access arguments' => array('administer site configuration'),
     'file' => 'ip_anon.inc',
   );
   return $items;
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function ip_anon_autoload_info() {
+  return array(
+  );
 }

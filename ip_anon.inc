@@ -12,7 +12,7 @@ function ip_anon_scrub() {
   foreach (ip_anon_tables() as $table => $columns) {
     db_update($table)
       ->fields(array($columns['hostname'] => 0))
-      ->condition($columns['timestamp'], REQUEST_TIME - variable_get("ip_anon_period_$table", 21600), '<')
+      ->condition($columns['timestamp'], REQUEST_TIME - config_get('ip_anon.settings', "ip_anon_period_$table"), '<')
       ->execute();
   }
 }
@@ -21,20 +21,25 @@ function ip_anon_scrub() {
  * Configuration options for IP Anonymize.
  */
 function ip_anon_settings() {
+  $config = config('ip_anon.settings');
   $form = array();
+  $form['#config'] = 'ip_anon.settings';
   $form['ip_anon_policy'] = array(
     '#type' => 'radios',
     '#title' => t('Retention policy'),
-    '#options' => array(0 => t('Preserve IP addresses'), 1 => t('Anonymize IP addresses')),
+    '#options' => array(
+      0 => t('Preserve IP addresses'),
+      1 => t('Anonymize IP addresses'),
+    ),
     '#description' => t('This setting may be used to temporarily disable IP anonymization.'),
-    '#default_value' => variable_get('ip_anon_policy', 0),
+    '#default_value' => $config->get('ip_anon_policy'),
   );
   $form['ip_anon_period'] = array(
     '#type' => 'fieldset',
     '#title' => t('Retention period'),
     '#description' => t('IP addresses older than the retention period will be anonymized.'),
   );
-  $options = drupal_map_assoc(array(
+  $options = backdrop_map_assoc(array(
     0,
     30,
     60,
@@ -73,13 +78,13 @@ function ip_anon_settings() {
     31536000,
   ), 'format_interval');
   foreach (ip_anon_tables() as $table => $columns) {
-    $schema = drupal_get_schema($table);
-    $schema = drupal_get_schema_unprocessed($schema['module'], $table);
+    $schema = backdrop_get_schema($table);
+    $schema = backdrop_get_schema_unprocessed($schema['module'], $table);
     $form['ip_anon_period']['ip_anon_period_' . $table] = array(
       '#type' => 'select',
       '#title' => t('@table table', array('@table' => $table)),
       '#options' => $options,
-      '#default_value' => variable_get('ip_anon_period_' . $table, 21600),
+      '#default_value' => $config->get('ip_anon_period_' . $table),
       '#description' => isset($schema['description']) ? check_plain($schema['description']) : '',
     );
   }
@@ -90,7 +95,7 @@ function ip_anon_settings() {
  * Default array of hostname and timestamp columns.
  */
 function ip_anon_columns() {
-  return drupal_map_assoc(array('hostname', 'timestamp'));
+  return backdrop_map_assoc(array('hostname', 'timestamp'));
 }
 
 /**
@@ -100,7 +105,7 @@ function ip_anon_columns() {
  */
 function ip_anon_tables() {
   $tables = array('sessions' => ip_anon_columns());
-  drupal_alter('ip_anon', $tables);
+  backdrop_alter('ip_anon', $tables);
   return $tables;
 }
 
@@ -162,16 +167,6 @@ function uc_order_ip_anon_alter(&$tables) {
   $tables['uc_orders'] = array(
     'hostname' => 'host',
     'timestamp' => 'modified',
-  );
-}
-
-/**
- * Implements hook_ip_anon_alter() for User IP Log module.
- */
-function uiplog_ip_anon_alter(&$tables) {
-  $tables['uiplog'] = array(
-    'hostname' => 'ip',
-    'timestamp' => 'timestamp',
   );
 }
 
