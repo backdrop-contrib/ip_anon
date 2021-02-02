@@ -1,6 +1,8 @@
 [IpAnonymizeTestCase]
+type = module
 name = IP Anonymize tests
 description = Tests IP Anonymize module.
+backdrop = 1.x
 group = IP Anonymize
 file = ip_anon.test
 

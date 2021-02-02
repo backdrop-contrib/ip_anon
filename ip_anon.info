@@ -1,5 +1,5 @@
+type = module
 name = IP Anonymize
 description = Implements an IP address retention policy.
 backdrop = 1.x
-type = module
 configure = admin/config/people/ip_anon
