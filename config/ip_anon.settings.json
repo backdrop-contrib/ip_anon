@@ -1,0 +1,5 @@
+{
+    "_config_name": "ip_anon.settings",
+    "ip_anon_period_table": "dynamic variable in file /ip_anon/ip_anon.inc line 82",
+    "ip_anon_policy": "novalue"
+}
