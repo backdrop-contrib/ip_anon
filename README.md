@@ -34,7 +34,7 @@ identifiers.
  ## Issues
 
   Bugs and Feature requests should be reported in the Issue Queue:
-  https://github.com/backdrop-contrib/pack_upload/issues.
+  https://github.com/backdrop-contrib/ip_anon/issues.
 
 ## Current Maintainers
 
